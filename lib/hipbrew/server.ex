@@ -16,7 +16,7 @@ defmodule Hipbrew.Server do
   end
 
   def send_message(room_id, name, message) do
-    GenServer.cast __MODULE, {:send_message, room_id ,name, message}
+    GenServer.cast __MODULE, {:send_message, room_id, message}
   end
 
   def handle_call(:list_rooms, _, api_token) do
@@ -35,8 +35,8 @@ defmodule Hipbrew.Server do
     end
   end
 
-  def handle_cast({:send_message, room_id, name, message}, api_token) do
-    Room.send_message(room_id, name, message, api_token)
+  def handle_cast({:send_message, room_id, message}, api_token) do
+    Room.send_message(room_id, name, api_token)
     {:no_reply, api_token}
   end
 end

@@ -26,6 +26,7 @@ defmodule Hipbrew.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [{:httpoison, "~> 0.5"},
-     {:poison, "~> 1.3.1"}]
+     {:poison, "~> 1.3.1"},
+     {:plug, "~> 0.10"}]
   end
 end

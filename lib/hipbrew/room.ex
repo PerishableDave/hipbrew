@@ -1,8 +1,6 @@
 defmodule Hipbrew.Room do
   import Hipbrew.Config, only: [api_url: 0]
 
-  defstruct id: nil, name: nil, links: %{}
-
   def list_rooms(api_token) do
     "#{api_url}/room?auth_token=#{api_token}"
       |> HTTPoison.get
@@ -15,8 +13,27 @@ defmodule Hipbrew.Room do
       |> handle_response
   end
 
-  def send_message(message, room_id, name, api_token) do
-    #todo
+  def send_message(message, room_id, api_token) do
+    body = Poison.encode!(%{message: message, message_format: "text"})
+    header = %{"Content-Type": "application/json"}
+
+    "#{api_url}/room/#{room_id}/notification"
+      |> HTTPoison.post body, header
+      |> handle_response
+  end
+
+  def create_webhook(room_id, url, event, options // []) do
+    %{url: url, event: event}
+      |> Dict.merge(options)
+      |> Poison.encode!
+
+      # todo
+      # "#{api_url}/room/#{room_id}/webook"
+      #  |>
+  end
+
+  defp handle_response({:ok, %{status_code: 204}) do
+    :ok
   end
 
   defp handle_response({:ok, %{status_code: 200, body: body}}) do
