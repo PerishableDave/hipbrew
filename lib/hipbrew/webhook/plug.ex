@@ -6,7 +6,7 @@ defmodule Hipbrew.Webhook.Plug do
     if full_path(conn) == opts[:path] and conn.method == "GET" do
       case parse(conn) do
         {:ok, event} ->
-          notify_event(event)f
+          notify_event(event)
       end
     else
       conn
@@ -15,7 +15,7 @@ defmodule Hipbrew.Webhook.Plug do
 
   defp parse(conn) do
     case Plug.Conn.read_body(conn) do
-      {:ok,. body, conn} ->
+      {:ok, body, conn} ->
         {:ok, Poison.decode!(body)}
       {:more, _data, conn} ->
         {:error, :too_large, conn}

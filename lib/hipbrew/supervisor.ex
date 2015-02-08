@@ -8,7 +8,7 @@ defmodule Hipbrew.Supervisor do
   def init(api_token) do
     children = [
       worker(Hipbrew.Server, api_token),
-      worker(Hipbrew.Webhook.EventServer)
+      worker(Hipbrew.Webhook.EventServer, [])
     ]
     supervise(children, strategy: :one_for_one)
   end

@@ -2,13 +2,15 @@ defmodule Hipbrew.Room do
   import Hipbrew.Config, only: [api_url: 0]
 
   def list_rooms(api_token) do
-    "#{api_url}/room?auth_token=#{api_token}"
+    "#{api_url}/room"
+      |> url_with_auth(api_token)
       |> HTTPoison.get
       |> handle_response
   end
 
   def room_history(room_id, api_token) do
-    "#{api_url}/room/#{room_id}/history/latest?auth_token=#{api_token}"
+    "#{api_url}/room/#{room_id}/history/latest"
+      |> url_with_auth(api_token)
       |> HTTPoison.get
       |> handle_response
   end
@@ -18,21 +20,22 @@ defmodule Hipbrew.Room do
     header = %{"Content-Type": "application/json"}
 
     "#{api_url}/room/#{room_id}/notification"
+      |> url_with_auth(api_token)
       |> HTTPoison.post body, header
       |> handle_response
   end
 
-  def create_webhook(room_id, url, event, options // []) do
-    %{url: url, event: event}
-      |> Dict.merge(options)
-      |> Poison.encode!
+  # def create_webhook(room_id, url, event, options \\ []) do
+  #   %{url: url, event: event}
+  #     |> Dict.merge(options)
+  #     |> Poison.encode!
 
-      # todo
-      # "#{api_url}/room/#{room_id}/webook"
-      #  |>
-  end
+  #     # todo
+  #     # "#{api_url}/room/#{room_id}/webook"
+  #     #  |>
+  # end
 
-  defp handle_response({:ok, %{status_code: 204}) do
+  defp handle_response({:ok, %{status_code: 204}}) do
     :ok
   end
 
@@ -43,5 +46,9 @@ defmodule Hipbrew.Room do
 
   defp handle_response({:error, message}) do
     {:ok, message}
+  end
+
+  defp url_with_auth(url, api_token) do
+    "#{url}?auth_token=#{api_token}"
   end
 end

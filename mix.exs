@@ -27,6 +27,8 @@ defmodule Hipbrew.Mixfile do
   defp deps do
     [{:httpoison, "~> 0.5"},
      {:poison, "~> 1.3.1"},
-     {:plug, "~> 0.10"}]
+     {:plug, "~> 0.10"},
+     {:cowboy, "~> 1.0.0"},
+     {:mock, git: "git://github.com/jjh42/mock.git"}]
   end
 end

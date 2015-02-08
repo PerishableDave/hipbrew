@@ -1,4 +1,4 @@
-defmodule Hibrew.Webhook.EventServer do
+defmodule Hipbrew.Webhook.EventServer do
   def start_link() do
     GenEvent.start_link(name: __MODULE__)
   end
