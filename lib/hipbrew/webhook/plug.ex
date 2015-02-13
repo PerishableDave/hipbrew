@@ -3,10 +3,13 @@ defmodule Hipbrew.Webhook.Plug do
   import Hipbrew.Webhook.EventServer, only: [notify_event: 1]
 
   def call(%Plug.Conn{} = conn, opts) do
-    if full_path(conn) == opts[:path] and conn.method == "GET" do
+    if full_path(conn) == opts[:path] and conn.method == "POST" do
       case parse(conn) do
         {:ok, event} ->
           notify_event(event)
+          send_resp(conn, 204, "")
+        error ->
+          send_resp(conn, 400, "")
       end
     else
       conn
@@ -16,7 +19,7 @@ defmodule Hipbrew.Webhook.Plug do
   defp parse(conn) do
     case Plug.Conn.read_body(conn) do
       {:ok, body, conn} ->
-        {:ok, Poison.decode!(body)}
+        Poison.decode(body)
       {:more, _data, conn} ->
         {:error, :too_large, conn}
     end

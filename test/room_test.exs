@@ -1,4 +1,4 @@
-defmodule RoomTests do
+defmodule Hipbrew.RoomTests do
   use ExUnit.Case, async: false
   import Mock
 
@@ -94,6 +94,15 @@ defmodule RoomTests do
       {response, %{"items" => items}} = Hipbrew.Room.room_history(1, @api_token)
       assert response == :ok
       assert length(items) == 2
+    end
+  end
+
+  test "send message" do
+    with_mock HTTPoison, [post: fn(_url, _body, _header) ->
+      {:ok, %{status_code: 204}}
+    end] do
+      response = Hipbrew.Room.send_message(1, "hello", @api_token)
+      assert response == :ok
     end
   end
 end

@@ -1,6 +1,10 @@
 defmodule Hipbrew do
   use Application
 
+  @moduledoc """
+  A module for the Hipchat API
+  """
+
   def start(_type, _args) do
 
     token = Application.get_env(:hipbrew, :token)

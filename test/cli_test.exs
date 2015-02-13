@@ -1,4 +1,4 @@
-defmodule CliTests do
+defmodule Hipbrew.CliTests do
   use ExUnit.Case
 
   import Hipbrew.CLI, only: [parse_args: 1]

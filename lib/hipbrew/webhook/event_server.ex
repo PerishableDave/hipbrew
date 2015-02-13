@@ -4,6 +4,7 @@ defmodule Hipbrew.Webhook.EventServer do
   end
 
   def notify_event(event) do
-    GenEvent.notify(__MODULE__, event)
+    event_type = String.to_atom(event["event"])
+    GenEvent.notify(__MODULE__, {event_type, event})
   end
 end
