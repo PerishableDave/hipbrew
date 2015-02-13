@@ -6,7 +6,7 @@ Hipchat client for Elixir.
 
 Add Hipbrew into mix.exs
 
-```
+```elixir
 def application do
   [applications: [:hipbrew]]
 end
@@ -20,7 +20,7 @@ end
 
 Add the webhook plug to your server.
 
-```
+```elixir
 defmodule MyServer do
   use Plug.Builder
   plug Hipbrew.Webhook.Plug, path: "/webhook/hipchat"
@@ -29,7 +29,7 @@ end
 
 Create a event handler.
 
-```
+```elixir
 defmodule MessageHandler do
   use GenEvent
 
@@ -41,6 +41,6 @@ end
 
 And register the event handler
 
-```
+```elixir
 Hipbrew.Webhook.EventServer.add_handler(MessageHandler)
 ```
